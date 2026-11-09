@@ -2,12 +2,115 @@
 
 This repository includes an agent instruction starter, not a configured application.
 
-## Install the template repository
+## Start here
 
 These are instructions and reference folders, not an executable application.
-There is no package installation or build step.
+There is no package installation, build step, or terminal setup command.
 
-### Publish the starter on GitHub
+- **Starting a project from an existing GitHub template?** Follow steps 1-4 below.
+- **Already cloned this project?** Start at step 2.
+- **Publishing your own reusable template?** Follow
+  [Publish the starter on GitHub](#publish-the-starter-on-github) first.
+
+## 1. Create your project repository
+
+1. On GitHub, open the template repository.
+2. Select **Use this template > Create a new repository**.
+3. Choose the owner and project name. Use a **private** repository for client
+   projects unless public access is explicitly approved.
+4. Create the repository. This is an independent copy; later template changes
+   will not automatically update it.
+
+## 2. Clone and open the correct folder
+
+1. Install Git and VS Code if needed. For the standard Copilot experience, enable
+   GitHub Copilot Chat and sign in with an authorized GitHub account.
+2. In VS Code, open the Command Palette with **Ctrl+Shift+P**, run **Git: Clone**,
+   and paste your **new project repository's** URL, not the template URL.
+3. Select **Open** when cloning finishes. If already cloned, use
+   **File > Open Folder** and choose the actual repository root.
+4. In Explorer, confirm `AGENTS.md`, `README.md`, `docs`, and `.github` are directly
+   inside the opened folder. Do not open only a Markdown file, the parent folder
+   containing several repositories, or an enclosing starter-package folder.
+5. Follow your organization's workspace-trust policy before enabling agent access.
+
+For example, if the files are in
+`C:\Projects\my-project\AGENTS.md` and `C:\Projects\my-project\.github`,
+open `C:\Projects\my-project`, not `C:\Projects`.
+
+## 3. Start first-use onboarding
+
+Open a **new chat** in the project workspace. A special agent picker is not
+required; the chat agent must be able to read repository files.
+
+### Option A: Your chat supports repository skill commands
+
+Type `/` and select **power-platform-onboarding**, or enter:
+
+```text
+/power-platform-onboarding
+```
+
+In standard VS Code Copilot Chat, `/skills` can also open the skills configuration
+menu. Selecting **Power Platform Expert** is optional when your host offers it.
+
+### Option B: The skill is missing from the menu, or you use an SDK chat host
+
+Paste this message:
+
+```text
+Read .github/skills/power-platform-onboarding/SKILL.md and execute its
+onboarding procedure now. Check whether you have minimum information for
+my first task, then ask only for missing essentials, one short question
+at a time.
+```
+
+Use **execute**, not only **read**: reading the file alone does not request
+onboarding. This fallback runs the documented workflow; it does not register a
+slash command. If the agent cannot read the file, fix workspace/file access first.
+
+### What should happen
+
+The agent checks existing records, asks only missing essentials for the current
+task, and gives a short hint with each question. It requests confirmation before
+saving project records. You do not need to complete the whole registry upfront:
+additional information is collected when a later task needs it.
+
+Onboarding does not create cloud resources, install tools, create connections,
+commit, or push. Never supply passwords or tokens. See the authoritative
+[onboarding procedure](docs/agents/onboarding.md).
+
+## 4. Start project work
+
+Tell the agent your first task, unless already supplied. It checks the relevant
+prerequisites and reports the next safe action. Missing future details do not
+block local planning; affected cloud operations wait for verified targets and
+required approvals.
+
+Review the [project policy](docs/agents/project.md) for your project. Add client
+policy and assets only where storage is permitted; do not copy another client's
+policy unchanged into a new project.
+
+## If skills do not appear after typing `/`
+
+1. Confirm the file exists at
+   `.github\skills\power-platform-onboarding\SKILL.md` under the opened root.
+   Root `skills\` is not the standard discovery location. The expert agent belongs
+   under `.github\agents\`, not root `agents\`.
+2. Run **Developer: Reload Window** from the Command Palette, start a new chat,
+   and try `/` again.
+3. In standard Copilot Chat, inspect `/skills` and customization diagnostics.
+   Loading `AGENTS.md` or selecting an expert agent does not prove skills loaded.
+4. If still missing, check your chat host's repository-skill support. SDK-based
+   extensions may have different discovery and command menus. Use option B above
+   when file access works; moving the file cannot add unsupported host features.
+
+The included skills have names and descriptions; slash invocation is enabled by
+default in hosts supporting this format. See
+[VS Code skill documentation](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+and [customization guidance](docs/agents/customizations.md).
+
+## Publish the starter on GitHub
 
 1. Create a repository on [GitHub](https://github.com/new). For a reusable public
    template, include only generic material; keep client information private.
@@ -25,6 +128,8 @@ There is no package installation or build step.
      agents/
        power-platform-expert.agent.md
      skills/
+       power-platform-onboarding/
+         SKILL.md
        power-platform-architect/
          SKILL.md
    docs/
@@ -39,42 +144,7 @@ There is no package installation or build step.
 When adding this starter to an existing repository, merge instructions and
 `.gitignore` deliberately. Preserve existing project files and approved rules.
 
-### Create a new project from the template
-
-1. Open the template repository and select **Use this template > Create a new
-   repository**.
-2. Choose the owner and project name. Use a **private** repository for client
-   projects unless public access is explicitly approved.
-3. Create the repository. This creates an independent copy; later template changes
-   will not automatically update it.
-4. In VS Code, run **Git: Clone** from the Command Palette, paste the new project
-   repository URL, choose a local folder, and open the cloned folder.
-   Git and authorized GitHub access are needed for cloning private repositories.
-5. Follow the first-use procedure below in the new project, not in the generic
-   template. Add client policy/assets only after checking storage permissions.
-
-### Verify GitHub Copilot discovery
-
-1. Use a current VS Code installation with GitHub Copilot Chat available and an
-   authorized GitHub account. Follow organizational workspace-trust policies.
-2. Open the repository root, not only an individual Markdown file. Confirm the
-   agent host supports root `AGENTS.md` and workspace skills/custom agents.
-3. Open Copilot Chat and select **Power Platform Expert** from the agent picker.
-4. Type `/` and look for `power-platform-architect`, or explicitly ask Copilot to
-   use that skill. If discovery is missing, inspect customization diagnostics and
-   host settings/support; reload the VS Code window after adding files if needed.
-5. Test without writes:
-
-   > Read AGENTS.md. Use power-platform-architect to summarize the approved scope
-   > and list missing onboarding decisions. Do not change files or cloud resources.
-
-6. Confirm the response respects the project policy and identifies unknown registry
-   values rather than inventing accounts, IDs, assets, or approvals.
-
-Select your preferred model in Copilot; the included agent does not pin one.
-See [customization guidance](docs/agents/customizations.md) for details.
-
-### Configure platform tools separately
+## Configure platform tools separately
 
 Copying these files does not install Power Platform CLI, Matt Pocock plugins,
 Canvas Authoring MCP, Power Automate tooling, connectors, or licenses. It also
@@ -86,30 +156,9 @@ connection, and resource approvals. Authenticate through approved sign-in flows;
 never put credentials in the registry or chat. Verify the actual account, tenant,
 environment, and resource before writes.
 
-## First use
-
-1. Read [AGENTS.md](AGENTS.md), then run the
-   [onboarding procedure](docs/agents/onboarding.md) in the actual repository.
-2. Confirm [project policy](docs/agents/project.md); replace template decisions
-   with approved project choices rather than assuming defaults are approvals.
-3. Populate the [non-secret registry](docs/project/registry.md) from verified facts
-   and approved decisions. Follow [local setup](docs/project/local-setup.md) for
-   workstation-specific authentication.
-4. Supply permitted approved assets through the
-   [Canvas reference catalog](references/canvas/README.md).
-5. Implement only after the relevant target, approvals, dependencies, and
-   verification route are confirmed.
-
-Suggested first prompt:
-
-> Read AGENTS.md and run first-use onboarding. Inspect available project facts
-> before asking grouped questions. Report blockers and safe next actions. Do not
-> create cloud resources, alter schemas, connect new services, or commit until the
-> corresponding scope is authorized.
-
 ## Included specialist customizations
 
-The starter includes a Power Platform architecture skill and expert agent under
+The starter includes onboarding and architecture skills and an expert agent under
 `.github/`. See [installation, usage, and provenance](docs/agents/customizations.md).
 These files do not install platform connections or replace project instructions.
 
