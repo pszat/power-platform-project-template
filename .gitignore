@@ -1,0 +1,13 @@
+# Workstation-specific setup and temporary authoring state.
+.local/
+working/
+
+# Credentials must remain outside source control, including local examples.
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
+
+# These patterns are guardrails, not a substitute for reviewing staged content.
